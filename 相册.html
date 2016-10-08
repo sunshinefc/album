@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src='jquery.js'></script>
+	<style>
+		.contain{
+			position: fixed;
+			right: 0;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			background: rgb(244,246,233) url(background.jpg) center center no-repeat;
+		}
+		.box{
+			width: 700px;
+			height:300px;
+			right: 0;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			margin:auto; 
+			position: fixed;
+		}
+		.imgbox{
+			width: 200px;
+			height: 135px;
+			border: 10px solid #fff;
+			float: left;
+			border-radius: 5px;
+			margin: 5px;
+			background:#fff;
+			
+		}
+		.imgbox img{
+			max-width: 100%;
+			max-height:100%;
+			
+		}
+		.mask{
+			width: 1366px;
+			height: 670px;
+			position: fixed;
+			top:0;
+			left: 0;
+			background: rgba(0,0,0,0.8);
+			display: none;
+
+		}
+		.fangda{
+			width: 900px;
+			height: 600px;
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+
+		}
+		
+		.fangda>img{
+			max-width: 100%;
+			max-height:100%;
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			border:10px solid #fff;
+			border-radius: 8px;
+		}
+		.left{
+			width: 30px;
+			height: 60px;
+			position: absolute;
+			left: -60px;
+			top:50%;
+			margin-top:-30px; 
+			background:url(buttom.png) no-repeat;
+			cursor: pointer;
+			
+		}
+		.left img{
+			width: 20px;
+			height: 50px;
+		}
+		.right{
+			width: 30px;
+			height: 60px;
+			position: absolute;
+			right: -90px;
+			top:50%;
+			margin-top:-30px; 
+			background:url(buttom.png) no-repeat -40px 0;
+			cursor: pointer;
+		}
+		.close{
+			width: 25px;
+			height: 25px;
+			position: absolute;
+			right:60px;
+			top:30px;
+			cursor: pointer;			
+		}
+		.close img{
+			width: 25px;
+			height: 25px;
+
+		}
+	</style>
+</head>
+<body>
+	<div class="contain">
+		<div class="box">
+			<div class="imgbox">
+				<img src="1.jpg" alt="">	
+			</div>
+			<div class="imgbox">
+				<img src="2.jpg" alt="">	
+			</div>
+			<div class="imgbox">
+				<img src="3.jpg" alt="">	
+			</div>
+			<div class="imgbox">
+				<img src="4.jpg" alt="">	
+			</div>
+			<div class="imgbox">
+				<img src="6.jpg" alt="">	
+			</div>
+			<div class="imgbox">
+				<img src="8.jpg" alt="">	
+			</div>
+		</div>
+		<div class="mask">
+			<div class="fangda">
+				<img src="" alt="">
+				<div class="button">
+					<div class="left"></div>
+					<div class="right"></div>
+				</div>		
+			</div>
+			
+			<div class="close">
+				<img src="close.png" alt="">
+			</div>
+		</div>
+
+	</div>
+</body>
+	<script>
+	$(function(){
+		var left=$('.button .left')
+		var right=$('.button .right')
+		var imgs=$('.box img')
+		var cw=$(window).outerWidth(true)
+		var ch=$(window).outerHeight(true)
+		
+		var xia=0;
+		$('.box div').on('click',function(){
+			xia=$(this).index();
+			$('.mask').fadeTo('slow',1)
+			var src=$(this).find('img').attr('src');
+			$('.fangda img').attr('src',src);
+		})
+
+		left.on('click',function(){
+			xia--;
+			if(xia==-1){xia=imgs.length}
+				var src=$('.box img').eq(xia).attr('src');
+				$('.fangda img').attr('src',src);
+
+		})
+
+		right.on('click',function(){
+			xia++;
+			if(xia==imgs.length){xia=0}
+				var src=$('.box img').eq(xia).attr('src');
+				$('.fangda img').attr('src',src);
+
+		})
+
+		$('.close').on('click',function(){
+			// $('.mask').css('display','none');
+			$('.mask').hide()
+		})
+
+		// 点击
+		$(document).on('click','.mask',function(e){
+			var el=e.target;
+			if($(el).is('.mask')||$(el).is('.button')){
+				$('.mask').hide()
+			}
+		})
+
+		//点击图片的左右,切换上一张,下一张  
+		var w=$('.fangda').outerWidth();
+		$('.fangda').on('click',function(e){
+			if(e.pageX<=w/2){
+				$('.left').trigger('click')
+				
+			}else if(e.pageX>w/2){
+				$('.right').trigger('click')
+			}
+		})
+
+
+		
+	})
+
+
+	</script>
+</html>
